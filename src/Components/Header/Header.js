@@ -31,14 +31,20 @@ export default class Header extends Component {
   }
 
   login() {
-    // axios POST to /auth/login here
+    const { username, password } = this.state;
+    const { updateUser } = this.props;
+    axios.post('/auth/login', {username, password})
+    .then(({data}) => {
+      updateUser(data);
+      this.setState({ username: '', password: ''})
+    })
+    .catch(err => alert(err.response.request.response));
   }
 
   register() {
-    // axios POST to /auth/register here
   const { username, password, isAdmin } = this.state;
   const resetState = () =>{this.setState({ username: '', password: ''})};
-  
+
   axios.post('/auth/register', { username, password, isAdmin })
     .then(({data}) => {
       resetState();

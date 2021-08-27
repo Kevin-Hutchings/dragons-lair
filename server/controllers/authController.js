@@ -21,6 +21,30 @@ const register = async (req, res) => {
    }
 };
 
+const login = async (req, res) => {
+   const { username, password } = req.body;
+   const db = req.app.get('db');
+   const foundUser = await db.get_user([username]);
+   const user = foundUser[0];
+
+   if(!user) {
+      res.status(401).json('User not found. Please register as a new user before loggin in.')
+   } else {
+      const isAuthenticated = bcrypt.compareSync(password, user.hash);
+      if(!isAuthenticated) {
+         res.status(403).json('Incorrect password');
+      } else {
+         req.session.user = {
+            isAdmin: user.is_admin,
+            username: user.username,
+            id: user.id,
+         }
+         res.status(200).json(req.session.user);
+      }
+   }
+}
+
 module.exports = {
    register,
+   login,
 };
