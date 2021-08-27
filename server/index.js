@@ -5,9 +5,10 @@ const massive = require('massive');
 const {
    register,
    login,
+   logout,
 } = require('./controllers/authController');
 
-const { CONNECTION_STRING, SESSION_SECRET } = process.env;
+const { CONNECTION_STRING, SERVER_PORT, SESSION_SECRET } = process.env;
 
 const app = express();
 
@@ -28,10 +29,10 @@ massive({
    app.set('db', dbInstance);
    console.log('Database connection successful!');
 })
-.catch(e => console.log(e));
+.catch(err => console.log(err));
 
 app.post('/auth/register', register);
-app.post('/auth/login', login)
+app.post('/auth/login', login);
+app.get('/auth/logout', logout);
 
-const PORT = 4000;
-app.listen(PORT, () => console.log(`Listening on Port ${PORT}`));
+app.listen(SERVER_PORT, () => console.log(`Listening on Port ${SERVER_PORT}`));

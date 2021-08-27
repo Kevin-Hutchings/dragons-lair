@@ -42,9 +42,15 @@ const login = async (req, res) => {
          res.status(200).json(req.session.user);
       }
    }
+};
+
+const logout = (req, res) => {
+   req.session.destroy();
+   res.sendStatus(200);
 }
 
 module.exports = {
    register,
    login,
+   logout,
 };
