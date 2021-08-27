@@ -7,6 +7,7 @@ const {
    login,
    logout,
 } = require('./controllers/authController');
+const { dragonTreasure } = require('./controllers/treasureController')
 
 const { CONNECTION_STRING, SERVER_PORT, SESSION_SECRET } = process.env;
 
@@ -34,5 +35,6 @@ massive({
 app.post('/auth/register', register);
 app.post('/auth/login', login);
 app.get('/auth/logout', logout);
+app.get('/api/treasure/dragon', dragonTreasure);
 
 app.listen(SERVER_PORT, () => console.log(`Listening on Port ${SERVER_PORT}`));
