@@ -13,9 +13,10 @@ const {
    dragonTreasure,
    getUserTreasure,
    addUserTreasure,
+   getAllTreasure,
 } = require('./controllers/treasureController');
 
-const auth = require('./middleware/authMiddleware');
+const { usersOnly, adminsOnly } = require('./middleware/authMiddleware');
 
 const { CONNECTION_STRING, SERVER_PORT, SESSION_SECRET } = process.env;
 
@@ -44,7 +45,8 @@ app.post('/auth/register', register);
 app.post('/auth/login', login);
 app.get('/auth/logout', logout);
 app.get('/api/treasure/dragon', dragonTreasure);
-app.get('/api/treasure/user', auth.usersOnly, getUserTreasure);
-app.post('/api/treasure/user', auth.usersOnly, addUserTreasure);
+app.get('/api/treasure/user', usersOnly, getUserTreasure);
+app.post('/api/treasure/user', usersOnly, addUserTreasure);
+app.get('/api/treasure/all', usersOnly, adminsOnly, getAllTreasure);
 
 app.listen(SERVER_PORT, () => console.log(`Listening on Port ${SERVER_PORT}`));

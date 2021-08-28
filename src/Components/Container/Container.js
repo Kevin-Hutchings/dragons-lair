@@ -28,11 +28,23 @@ export default class Container extends Component {
         },
       });
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
   }
 
   getAllTreasure() {
-    // axios GET to /api/treasure/all here
+    axios.get('/api/treasure/all')
+    .then(({data}) => {
+      this.setState({ 
+        treasures: {
+          ...this.state.treasures,
+          all: data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err)
+      alert(err.response.request.response)
+    });
   }
 
   getMyTreasure() {
