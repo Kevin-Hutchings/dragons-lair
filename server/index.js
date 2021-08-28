@@ -12,6 +12,7 @@ const {
 const { 
    dragonTreasure,
    getUserTreasure,
+   addUserTreasure,
 } = require('./controllers/treasureController');
 
 const auth = require('./middleware/authMiddleware');
@@ -44,5 +45,6 @@ app.post('/auth/login', login);
 app.get('/auth/logout', logout);
 app.get('/api/treasure/dragon', dragonTreasure);
 app.get('/api/treasure/user', auth.usersOnly, getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, addUserTreasure);
 
 app.listen(SERVER_PORT, () => console.log(`Listening on Port ${SERVER_PORT}`));
